@@ -1,4 +1,7 @@
+'use client'
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaBug } from "react-icons/fa";
 
 type Links = {
@@ -17,19 +20,22 @@ function Navbar() {
       href: "/issues",
     },
   ];
+
+  const currentPath = usePathname()
+
   return (
-    <nav className="nav bg-gray-100 flex justify-between items-center w-full h-20 px-4 text-gray-600 fixed">
+    <nav className="bg-gray-100 flex justify-between items-center w-full h-16 px-6 text-gray-600">
       <div>
         <Link className="link-underline" href="/">
           {" "}
-          <FaBug size={20} fa-bug="true" color="#121212" />{" "}
+          <FaBug size={30} fa-bug="true" color="#121212" />{" "}
         </Link>
       </div>
       <ul className="flex space-x-6">
         {links.map((link) => (
-          <li key={link.href}>
+          <li className="nav-links cursor-pointer font-medium" key={link.href}>
             <Link
-              className="hover:transition ease-in-out delay-150 hover:text-gray-950 hover:decoration-solid"
+              className={`${link.href === currentPath? 'text-blue-500':''} hover:transition ease-in-out delay-150 hover:text-gray-950 hover:decoration-solid`}
               href={link.href}
             >
               {link.label}

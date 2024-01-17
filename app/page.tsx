@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="self-center">
+    <div className="mt-30">
       Hello World!!!
     </div>
   )
