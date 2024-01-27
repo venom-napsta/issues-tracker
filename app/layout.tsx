@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Next.JS Issue Tracker .TSX",
   description:
-    "Next.js App for tracking issues and bugs, created by create next app",
+    "Next.js App for tracking issues and bugs, created by qxd",
 };
 
 export default function RootLayout({
