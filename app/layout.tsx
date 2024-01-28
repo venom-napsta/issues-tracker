@@ -4,12 +4,14 @@ import { Inter } from "next/font/google";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
+import "@radix-ui/themes/styles.css";
+import { Theme, ThemePanel } from "@radix-ui/themes";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Next.JS Issue Tracker .TSX",
-  description:
-    "Next.js App for tracking issues and bugs, created by qxd",
+  description: "Next.js App for tracking issues and bugs, created by qxd",
 };
 
 export default function RootLayout({
@@ -20,9 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <Theme
+          accentColor="teal"
+          grayColor="sand"
+          radius="medium"
+          scaling="95%"
+        >
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Theme>
       </body>
     </html>
   );

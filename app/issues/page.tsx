@@ -1,11 +1,17 @@
-import React from 'react'
+import { Button, Flex, Text } from "@radix-ui/themes";
+import React from "react";
 
-type Props = {}
-
-const IssuesPage = (props: Props) => {
+const IssuesPage = () => {
   return (
-    <div>IssuesPage</div>
-  )
-}
+    <div>
+      <Flex direction="column" gap="2">
+        <Button variant="outline" size="4">
+          Lelsdj Btn
+        </Button>
+        <Text>Hello From Radix</Text>
+      </Flex>
+    </div>
+  );
+};
 
-export default IssuesPage
+export default IssuesPage;
