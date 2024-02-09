@@ -10,6 +10,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/issueValidationSchema";
 import { z } from "zod";
+import ErrorMessage from '../../components/ErrorMessage';
 
 // // Reduntandant Code
 // interface IIssueForm {
@@ -57,11 +58,9 @@ function NewIssuePage() {
             size="3"
           />
         </TextField.Root>
-        {errors.title && (
-          <Text as="p" color="red">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>
+          {errors.title?.message}
+        </ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -69,11 +68,9 @@ function NewIssuePage() {
             <SimpleMDE placeholder="Description..." {...field} />
           )}
         />
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>
+          {errors.description?.message}
+        </ErrorMessage>
 
         <Button variant="classic" size="3">
           Submit New Issue
