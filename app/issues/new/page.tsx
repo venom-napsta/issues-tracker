@@ -10,7 +10,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/issueValidationSchema";
 import { z } from "zod";
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from "../../components/ErrorMessage";
 
 // // Reduntandant Code
 // interface IIssueForm {
@@ -31,11 +31,13 @@ function NewIssuePage() {
   } = useForm<IIssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
+  console.log(errors);
+
   const [error, setError] = useState("");
   return (
     <div className="max-w-xl px-5 space-y-3">
       {error && (
-        <Callout.Root color="red" className="mb-5">
+        <Callout.Root color="red" className="my-4">
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
@@ -58,9 +60,7 @@ function NewIssuePage() {
             size="3"
           />
         </TextField.Root>
-        <ErrorMessage>
-          {errors.title?.message}
-        </ErrorMessage>
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -68,9 +68,7 @@ function NewIssuePage() {
             <SimpleMDE placeholder="Description..." {...field} />
           )}
         />
-        <ErrorMessage>
-          {errors.description?.message}
-        </ErrorMessage>
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button variant="classic" size="3">
           Submit New Issue
