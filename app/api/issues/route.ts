@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { createIssueSchema } from "../../issueValidationSchema";
 
+// Create New Issue
 export async function POST(request: NextRequest) {
   const body = await request.json();
   // use schema to validate body obj
@@ -17,3 +18,9 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(newIssue, { status: 201 });
 }
+
+// Get All Issues
+// export async function GET(request: NextRequest) {
+//   const issues = await prisma.issue.findMany();
+//   return NextResponse.json(issues, { status: 200 });
+// }
