@@ -32,7 +32,7 @@ function NewIssuePage() {
   } = useForm<IIssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
-  console.log(errors);
+  console.log("Errors", errors);
 
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

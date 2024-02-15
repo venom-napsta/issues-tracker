@@ -4,7 +4,7 @@ import delay from "delay";
 
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
-import Link from "next/link";
+import LinkComponent from "../components/LinkComponent";
 
 const IssuesPage = async () => {
   let issues;
@@ -37,9 +37,10 @@ const IssuesPage = async () => {
             {issues?.map((issue) => (
               <Table.Row key={issue.id}>
                 <Table.Cell>
-                  <Link href={`/issues/${issue.id}`}>
-                    {issue.title} {/** Display under Title on small screens */}
-                  </Link>
+                  {/** Display under Title on small screens */}
+                  <LinkComponent href={`/issues/${issue.id}`}>
+                    {issue.title}
+                  </LinkComponent>
                   {/* <div className="block md:hidden">Status: {issue.status}</div> */}
                   <div className="block md:hidden">
                     <IssueStatusBadge status={issue.status} />
