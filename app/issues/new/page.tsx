@@ -8,11 +8,15 @@ import Axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Controller, useForm } from "react-hook-form";
-import SimpleMDE from "react-simplemde-editor";
 import { z } from "zod";
 import ErrorMessage from "../../components/ErrorMessage";
 
+// To Disable SSR - Err:navigator not defined. Hence use lazy-loading
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 // // Reduntandant Code
 // interface IIssueForm {
 //   title: string;
