@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Define Data Constraints according to DB config.
-export const createIssueSchema = z.object({
+export const issueSchema = z.object({
   title: z.string().min(1, "Title is required.").max(255),
   description: z
     .string()

@@ -1,7 +1,7 @@
 "use client";
 
 import { Spinner } from "@/app/components/Spinner";
-import { createIssueSchema } from "@/app/issueValidationSchema";
+import { issueSchema } from "@/app/issueValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Button, Callout, Text, TextField } from "@radix-ui/themes";
@@ -25,7 +25,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 // }
 
 // Pro Code: Infer based on this schema
-type IIssueFormData = z.infer<typeof createIssueSchema>;
+type IIssueFormData = z.infer<typeof issueSchema>;
 
 interface Props {
   issue?: Issue;
@@ -39,7 +39,7 @@ function IssueForm({ issue }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<IIssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   console.log("Errors", errors);
 
@@ -50,8 +50,10 @@ function IssueForm({ issue }: Props) {
     try {
       setIsSubmitting(true);
 
-      // createIssue(data) how ever it's a simple component.
-      await Axios.post("/api/issues", data);
+      // If issue has been passed
+      if (issue) await Axios.patch(`/api/issues/${issue.id}`, data);
+      // Otherwise createIssue(data).
+      else await Axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
       // console.error(error);
@@ -89,7 +91,7 @@ function IssueForm({ issue }: Props) {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button disabled={isSubmitting} variant="classic" size="3">
-          Submit New Issue
+          {issue ? "Update Issue" : "Submit New Issue"}{" "}
           {isSubmitting && <Spinner />}
         </Button>
       </form>
