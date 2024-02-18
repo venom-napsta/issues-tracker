@@ -55,6 +55,8 @@ function IssueForm({ issue }: Props) {
       // Otherwise createIssue(data).
       else await Axios.post("/api/issues", data);
       router.push("/issues");
+      // Refresh After Submission: ie No caching after submitting.
+      router.refresh();
     } catch (error) {
       // console.error(error);
       setIsSubmitting(false);
@@ -98,5 +100,7 @@ function IssueForm({ issue }: Props) {
     </div>
   );
 }
+// Revalidate after 3600s
+// export const revalidate = 3600;
 
 export default IssueForm;
