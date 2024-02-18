@@ -2,20 +2,24 @@
 
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import { TrashIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
+import Axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface IIssueId {
   issueId: number;
 }
 const DeleteIssueButton = ({ issueId }: IIssueId) => {
+  const router = useRouter();
   return (
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red">Revoke access</Button>
+          <Button color="red">
+            <TrashIcon /> Delete Issue
+          </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content style={{ maxWidth: 450 }}>
-          <AlertDialog.Title>Revoke access</AlertDialog.Title>
+          <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
           <AlertDialog.Description size="2">
             Are you sure? This action cannot be undone.
           </AlertDialog.Description>
@@ -27,18 +31,23 @@ const DeleteIssueButton = ({ issueId }: IIssueId) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant="solid" color="red">
-                Revoke access
+              <Button
+                variant="solid"
+                color="red"
+                onClick={async () => {
+                  await Axios.delete(
+                    `http://localhost:3000/api/issues/${issueId}`
+                  );
+                  router.push("/issues");
+                  router.refresh();
+                }}
+              >
+                Delete Issue
               </Button>
             </AlertDialog.Action>
           </Flex>
         </AlertDialog.Content>
       </AlertDialog.Root>
-
-      <Button color="red">
-        <TrashIcon />
-        <Link href={`/issues`}>Delete Issue {issueId}</Link>
-      </Button>
     </>
   );
 };
