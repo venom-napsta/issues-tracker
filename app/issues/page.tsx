@@ -20,7 +20,6 @@ const IssuesPage = async () => {
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Description</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="hidden md:table-cell">
                 Status
               </Table.ColumnHeaderCell>
@@ -42,7 +41,6 @@ const IssuesPage = async () => {
                     <IssueStatusBadge status={issue.status} />
                   </div>
                 </Table.Cell>
-                <Table.Cell>{issue.description}</Table.Cell>
                 <Table.Cell className="hidden md:table-cell">
                   <IssueStatusBadge status={issue.status} />
                 </Table.Cell>

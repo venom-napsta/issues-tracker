@@ -5,6 +5,7 @@ import { TrashIcon } from "@radix-ui/react-icons";
 import Axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Spinner } from "@/app/components";
 
 interface IIssueId {
   issueId: number;
@@ -12,13 +13,16 @@ interface IIssueId {
 const DeleteIssueButton = ({ issueId }: IIssueId) => {
   const router = useRouter();
   const [error, setError] = useState(false);
+  const [isDeleteting, setIsDeleteting] = useState(false);
 
   const deleteIssue = async () => {
     try {
+      setIsDeleteting(true);
       await Axios.delete(`http://localhost:3000/api/issues/${issueId}`);
       router.push("/issues");
       router.refresh();
     } catch (error) {
+      setIsDeleteting(false);
       // dialog err
       setError(true);
       console.log(error);
@@ -28,8 +32,9 @@ const DeleteIssueButton = ({ issueId }: IIssueId) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red">
+          <Button disabled={isDeleteting} color="red">
             <TrashIcon /> Delete Issue
+            {isDeleteting && <Spinner />}
           </Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content style={{ maxWidth: 450 }}>
