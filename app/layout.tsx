@@ -1,12 +1,12 @@
-import "./globals.css";
-import "./theme-config.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
+import "./globals.css";
+import "./theme-config.css";
+// import Footer from "./Footer";
 
+import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,8 +29,10 @@ export default function RootLayout({
       <body className={inter.variable}>
         <Theme accentColor="teal" radius="small" scaling="95%">
           <Navbar />
-          <main className="p-5">{children}</main>
-          <Footer />
+          <main className="p-5">
+            {/* To always Centralize content instead of stretcing */}
+            <Container>{children}</Container>
+          </main>
         </Theme>
       </body>
     </html>
