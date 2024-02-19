@@ -19,7 +19,7 @@ const DeleteIssueButton = ({ issueId }: IIssueId) => {
     try {
       setIsDeleteting(true);
       await Axios.delete(`http://localhost:3000/api/issues/${issueId}`);
-      router.push("/issues");
+      router.push("/issues/list");
       router.refresh();
     } catch (error) {
       setIsDeleteting(false);

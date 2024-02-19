@@ -50,7 +50,7 @@ function IssueForm({ issue }: Props) {
       if (issue) await Axios.patch(`/api/issues/${issue.id}`, data);
       // Otherwise createIssue(data).
       else await Axios.post("/api/issues", data);
-      router.push("/issues");
+      router.push("/issues/list");
       // Refresh After Submission: ie No caching after submitting.
       router.refresh();
     } catch (error) {

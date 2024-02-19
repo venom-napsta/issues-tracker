@@ -8,7 +8,7 @@ const EditIssueButton = ({ issueId }: { issueId: number }) => {
       <Pencil2Icon />
       <Link
         // className="hover:cursor-pointer"
-        href={`/issues/${issueId}/edit`}
+        href={`/issues/edit/${issueId}`}
       >
         Edit Issue
       </Link>

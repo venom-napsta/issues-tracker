@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,11 +17,11 @@ function Navbar() {
     },
     {
       label: "Issues",
-      href: "/issues",
+      href: "/issues/list",
     },
   ];
 
-  const currentPath = usePathname()
+  const currentPath = usePathname();
 
   return (
     <nav className="bg-gray-100 flex justify-between items-center w-full h-16 px-6 text-gray-600">
@@ -35,7 +35,9 @@ function Navbar() {
         {links.map((link) => (
           <li className="nav-links cursor-pointer font-medium" key={link.href}>
             <Link
-              className={`${link.href === currentPath? 'text-blue-500':''} hover:transition ease-in-out delay-150 hover:text-gray-950 hover:decoration-solid`}
+              className={`${
+                link.href === currentPath ? "text-blue-500" : ""
+              } hover:transition ease-in-out delay-150 hover:text-gray-950 hover:decoration-solid`}
               href={link.href}
             >
               {link.label}
