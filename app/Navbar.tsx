@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaBug } from "react-icons/fa";
+import { useSession } from "next-auth/react";
+import { Box } from "@radix-ui/themes";
 
 type Links = {
   label: string;
@@ -21,6 +23,8 @@ function Navbar() {
     },
   ];
 
+  // get data and rename it to session
+  const { status, data: session } = useSession();
   const currentPath = usePathname();
 
   return (
@@ -45,6 +49,14 @@ function Navbar() {
           </li>
         ))}
       </ul>
+      <Box>
+        {status === "authenticated" && (
+          <Link href="/api/auth/signout">Logout</Link>
+        )}
+        {status === "unauthenticated" && (
+          <Link href="/api/auth/signin">Login</Link>
+        )}
+      </Box>
     </nav>
   );
 }
