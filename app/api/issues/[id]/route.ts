@@ -1,6 +1,8 @@
+import authOptions from "@/app/auth/authOptions";
 import { issueSchema } from "@/app/issueValidationSchema";
 import prisma from "@/prisma/client";
-import delay from "delay";
+// import delay from "delay";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 interface IParams {
@@ -9,6 +11,13 @@ interface IParams {
 
 // Edit Issue
 export async function PATCH(request: NextRequest, { params }: IParams) {
+  // if (!params.id)
+  //   NextResponse.json({ error: "Invalid ID provided" }, { status: 404 });
+
+  const session = await getServerSession(authOptions);
+  if (!session)
+    return NextResponse.json({ error: "Not authorised" }, { status: 401 });
+
   const body = await request.json();
   const validation = issueSchema.safeParse(body);
 
@@ -19,7 +28,8 @@ export async function PATCH(request: NextRequest, { params }: IParams) {
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
   });
-  if (!issue) NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  if (!issue)
+    return NextResponse.json({ error: "Issue not found" }, { status: 404 });
 
   const updatedIssue = await prisma.issue.update({
     where: { id: issue?.id },
@@ -34,6 +44,10 @@ export async function PATCH(request: NextRequest, { params }: IParams) {
 
 // Delete Issue
 export async function DELETE(request: NextRequest, { params }: IParams) {
+  const session = await getServerSession(authOptions);
+  if (!session)
+    return NextResponse.json({ error: "Not authorised" }, { status: 401 });
+
   request = request;
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.id) },
