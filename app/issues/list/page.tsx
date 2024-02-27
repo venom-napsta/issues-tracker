@@ -30,10 +30,10 @@ const IssuesPage = async () => {
           </Table.Header>
           <Table.Body>
             {issues?.map((issue) => (
-              <Table.Row key={issue.id}>
+              <Table.Row key={issue.id} className="hover:bg-[#efeeee97]">
                 <Table.Cell>
-                  {/** Display under Title on small screens */}
                   <LinkComponent href={`/issues/${issue.id}`}>
+                    {/** Display under Title on small screens */}
                     {issue.title}
                   </LinkComponent>
                   {/* <div className="block md:hidden">Status: {issue.status}</div> */}

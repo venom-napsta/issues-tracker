@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import {
   Avatar,
   Box,
+  Button,
   Container,
   DropdownMenu,
   Flex,
@@ -78,9 +79,11 @@ const AuthStatus = () => {
 
   if (status === "unauthenticated")
     return (
-      <Link className="nav-link" href="/api/auth/signin">
-        Login
-      </Link>
+      <Button variant="outline" size="4" mt="-2">
+        <Link className="nav-link" href="/api/auth/signin">
+          Login
+        </Link>
+      </Button>
     );
 
   return (
