@@ -3,13 +3,25 @@ import { Table } from "@radix-ui/themes";
 
 import { IssueStatusBadge, LinkComponent } from "../../components";
 import IssueActions from "./IssueActions";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
+import Link from "next/link";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  searchParams: { status: Status };
+  searchParams: { status: Status; orderBy: keyof Issue };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
+  // Columns we'd love to display
+  const columns: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "status", className: "hidden md:table-cell" },
+    { label: "Created", value: "updatedAt", className: "hidden md:table-cell" },
+  ];
   let issues;
   try {
     // console.log(searchParams.status);
@@ -33,13 +45,27 @@ const IssuesPage = async ({ searchParams }: Props) => {
         <Table.Root variant="surface" size="3">
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
+              {columns.map((column) => (
+                <Table.ColumnHeaderCell key={column.value}>
+                  <Link
+                    href={{
+                      query: { ...searchParams, orderBy: column.value },
+                    }}
+                  >
+                    {column.label}
+                  </Link>
+                  {column.value === searchParams.orderBy && (
+                    <ArrowUpIcon className="inline" />
+                  )}
+                </Table.ColumnHeaderCell>
+              ))}
+              {/* <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="hidden md:table-cell">
                 Status
               </Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="hidden md:table-cell">
                 Created
-              </Table.ColumnHeaderCell>
+              </Table.ColumnHeaderCell> */}
             </Table.Row>
           </Table.Header>
           <Table.Body>
