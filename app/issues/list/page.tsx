@@ -20,7 +20,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   }[] = [
     { label: "Issue", value: "title" },
     { label: "Status", value: "status", className: "hidden md:table-cell" },
-    { label: "Created", value: "updatedAt", className: "hidden md:table-cell" },
+    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
   let issues;
   try {
@@ -29,10 +29,22 @@ const IssuesPage = async ({ searchParams }: Props) => {
     const status = statuses.includes(searchParams.status)
       ? searchParams.status
       : undefined;
+    const orderBy = columns
+      .map((column) => column.value)
+      .includes(searchParams.orderBy)
+      ? { [searchParams.orderBy]: "asc" }
+      : undefined;
     issues = await prisma.issue.findMany({
       where: {
         status: status,
       },
+      // Dynamic Update
+      orderBy,
+      // Const Update
+      // orderBy: {
+      //   // title:'asc'
+      //   [searchParams.orderBy]: "asc",
+      // },
     });
   } catch (error) {
     console.error(error);
