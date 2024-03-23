@@ -6,9 +6,10 @@ import IssueActions from "./IssueActions";
 import { Issue, Status } from "@prisma/client";
 import Link from "next/link";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
+import Pagination from "@/app/components/Pagination";
 
 interface Props {
-  searchParams: { status: Status; orderBy: keyof Issue };
+  searchParams: { status: Status; orderBy: keyof Issue; page: string };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -22,33 +23,38 @@ const IssuesPage = async ({ searchParams }: Props) => {
     { label: "Status", value: "status", className: "hidden md:table-cell" },
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
-  let issues;
-  try {
-    // console.log(searchParams.status);
-    const statuses = Object.values(Status);
-    const status = statuses.includes(searchParams.status)
-      ? searchParams.status
-      : undefined;
-    const orderBy = columns
-      .map((column) => column.value)
-      .includes(searchParams.orderBy)
-      ? { [searchParams.orderBy]: "asc" }
-      : undefined;
-    issues = await prisma.issue.findMany({
-      where: {
-        status: status,
-      },
-      // Dynamic Update
-      orderBy,
-      // Const Update
-      // orderBy: {
-      //   // title:'asc'
-      //   [searchParams.orderBy]: "asc",
-      // },
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  // console.log(searchParams.status);
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+  const orderBy = columns
+    .map((column) => column.value)
+    .includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
+    : undefined;
+
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
+  const issues = await prisma.issue.findMany({
+    where: {
+      status: status,
+    },
+    // Dynamic Update
+    orderBy,
+    // Const Update
+    // orderBy: {
+    //   // title:'asc'
+    //   [searchParams.orderBy]: "asc",
+    // },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const issueCount = await prisma.issue.count({
+    where: { status },
+  });
 
   return (
     <div>
@@ -108,8 +114,14 @@ const IssuesPage = async ({ searchParams }: Props) => {
           </Table.Body>
         </Table.Root>
       </div>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={issueCount}
+      />
     </div>
   );
 };
 
 export default IssuesPage;
+// export const dynamic = 'force-dynamic';
