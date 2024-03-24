@@ -36,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 prisma/migrations/20240225095211_auth_new/migration.sql
 prisma/migrations/20240225093051_trial_2_auth/migration.sql
+app/issues/list/IssuesPage.tsx
