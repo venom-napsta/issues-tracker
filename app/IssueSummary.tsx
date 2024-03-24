@@ -21,7 +21,7 @@ const IssueSummary = ({ open, inProgess, closed }: Props) => {
   ];
 
   return (
-    <Flex gap="4" mt="3">
+    <Flex gap="4">
       {statuses.map((status) => (
         <Card className="hover:bg-gray-100" key={status.label}>
           <Flex direction="column" gap="1">

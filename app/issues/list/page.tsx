@@ -5,6 +5,7 @@ import { Status } from "@prisma/client";
 import IssueActions from "./IssueActions";
 import IssueTable, { IIssueQuery, columnNames } from "./IssueTable";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: IIssueQuery;
@@ -59,5 +60,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
   );
 };
 
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue List | Issue Tracker",
+  description: "Issues List - View all project issues.",
+};
+
 export default IssuesPage;
-// export const dynamic = 'force-dynamic';
