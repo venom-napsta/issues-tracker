@@ -7,6 +7,12 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import AssigneeSelect from "./AssigneeSelect";
+import { cache } from "react";
+
+// Hence we'll query the DB Once :)
+const fetchUser = cache((issueId: number) =>
+  prisma.issue.findUnique({ where: { id: issueId } })
+);
 
 interface Props {
   params: { id: string };
@@ -19,10 +25,9 @@ const IssueDetailPage = async ({ params }: Props) => {
   // if (typeof parseInt(params.id) !== "number") notFound();
 
   // FInd Issue Using Clicked ID
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
-  });
-
+  // const issue = await prisma.issue.findUnique({ where: { id: parseInt(params.id) }});
+  // Better Way:Pro way :)
+  const issue = await fetchUser(parseInt(params.id));
   if (!issue) notFound();
 
   return (
@@ -45,9 +50,10 @@ const IssueDetailPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
-  });
+  // const issue = await prisma.issue.findUnique({
+  //   where: { id: parseInt(params.id) },
+  // });
+  const issue = await fetchUser(parseInt(params.id));
   return {
     title: `${issue?.title}: Issue Tracker`,
     description: `Details of Issue ${issue?.id}`,
